@@ -26,14 +26,19 @@ ny = 64
 dx = lx/nx
 dy = ly/ny
 
-# Simulation time
-T_simu = 10000
-t_step = 0.04
-t_step_vec = sc.reshape(t_step*sc.ones(nx*ny), (nx*ny, 1), order="F")
-t_step_vec = sp.csc_matrix(t_step_vec)
-
 # Initialize vortex
 u, v, p = nst.dancing_vortices(nx, ny, dx, dy)
+
+# Simulation time
+T_simu = 100
+
+# Set discrete time step by choosing CFL number (condition: CFL <= 1)
+CFL = 1
+u_max = sc.amax(sc.absolute(u))
+v_max = sc.amax(sc.absolute(v))
+t_step = (CFL*dx*dy)/(u_max*dy+v_max*dx)
+t_step_vec = sc.reshape(t_step*sc.ones(nx*ny), (nx*ny, 1), order="F")
+t_step_vec = sp.csc_matrix(t_step_vec)
 
 # Reshape velocity fields: u_vec, v_vec denote the vector-shaped velocity field
 # and U, V denote the velocity values written in a diagonal matrix. The
@@ -75,8 +80,10 @@ L = nst.Laplace(Gx, Gy, Dx, Dy)
 # Transport Operator in 2D domain for the convective term (is already sparse)
 Du = nst.Convective(Gx, Gy, Dx, Dy, U, V)
 
-
-for i in range(0, T_simu):
+# Start Simulation
+t_sum = 0
+i = 0
+while t_sum <= T_simu:
     # Make vector-shaped velocity to diagonal-shaped velocity for calculation
     # of transport operator for the convective term
     U = sc.asarray(sp.csc_matrix.todense(u_vec)).reshape(-1)
@@ -104,3 +111,6 @@ for i in range(0, T_simu):
         plt.imshow(rot_uv)
         plt.colorbar()
         plt.show()
+
+    i += 1
+    t_sum += t_step

@@ -95,7 +95,7 @@ def dancing_vortices(nx, ny, dx, dy):
     # Initial vortex y-position
     y0s = sc.array([1, 1, 1+1/(2*sc.sqrt(2))]) * sc.pi
 
-    # V ortex core size
+    # Vortex core size
     betas = sc.array([1, 1, 1]) / sc.pi
     # Strength
     alphas = sc.array([1, 1, -1/2]) * sc.pi
@@ -131,7 +131,7 @@ def dancing_vortices(nx, ny, dx, dy):
 
 
 def vortex_pair(nx, ny, dx, dy):
-    # domain size
+    # Domain size
     lx = nx * dx
     ly = ny * dy
     # Initial vortex x-position
@@ -139,7 +139,7 @@ def vortex_pair(nx, ny, dx, dy):
     # Initial vortex y-position
     y0s = sc.array([ly*0.5, ly*0.5])
 
-    # V ortex core size
+    # Vortex core size
     betas = sc.array([0.05, 0.05]) * min(lx, ly)
     # Strength
     alphas = sc.array([0.5, -0.5]) * sc.pi
