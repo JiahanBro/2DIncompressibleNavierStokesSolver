@@ -29,8 +29,12 @@ dy = ly/ny
 T_simu = 10000
 t_step = 0.04
 
-# Initialize vortex
-omega, p = nst.dancing_vortices(nx, ny, dx, dy)
+# Initialize vortex: choose one of the following:
+# 1. vortex pair in the middle of the domain
+omega, p = nst.vortex_pair(nx, ny, dx, dy)
+
+# 2. three vortices dancing moving arround
+#  omega, p = nst.dancing_vortices(nx, ny, dx, dy)
 
 # Gradient operators in Fourier domain for x- and y-direction
 Kx, Ky = nst.Spectral_Gradient(nx, ny, lx, ly)

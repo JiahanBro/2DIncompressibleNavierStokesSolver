@@ -130,6 +130,50 @@ def dancing_vortices(nx, ny, dx, dy):
     return omega, p
 
 
+def vortex_pair(nx, ny, dx, dy):
+    # domain size
+    lx = nx * dx
+    ly = ny * dy
+    # Initial vortex x-position
+    x0s = sc.array([lx*0.45, lx*0.55])
+    # Initial vortex y-position
+    y0s = sc.array([ly*0.5, ly*0.5])
+
+    # V ortex core size
+    betas = sc.array([0.05, 0.05]) * min(lx, ly)
+    # Strength
+    alphas = sc.array([0.5, -0.5]) * sc.pi
+
+    # Build field
+    x = sc.linspace(dx, lx, nx)
+    y = sc.linspace(dx, ly, ny)
+    x, y = sc.meshgrid(x, y)
+    x = sc.transpose(x)
+    y = sc.transpose(y)
+
+    # Calculate omega
+    omega = sc.zeros([nx, ny], dtype='float64')
+    for i in range(0, len(x0s)):
+        x0 = x0s[i]
+        y0 = y0s[i]
+        beta = betas[i]
+        alpha = alphas[i]
+        R2 = (sc.multiply((x-x0), (x-x0)) + sc.multiply((y-y0), (y-y0))) / \
+            pow(beta, 2)
+        omega_part = alpha * (1-R2) * exp(-R2)
+        omega += omega_part
+
+    # Initialize pressure field
+    p = sc.zeros([nx, ny])
+
+    print("Initialized vortex pair")
+    plt.imshow(omega)
+    plt.colorbar()
+    plt.show()
+
+    return omega, p
+
+
 def random_vortices(nx, ny):
     omega_hat = sc.zeros([nx, ny])
     tmp = sc.randn(3) + 1j*sc.randn(3)
