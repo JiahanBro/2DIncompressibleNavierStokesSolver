@@ -229,3 +229,88 @@ def dancing_vortices(nx, ny, dx, dy):
     v = sc.reshape(u, (nx, ny), order="F")
 
     return u, v, p
+
+
+def vortex_pair(nx, ny, dx, dy):
+    # Domain size
+    lx = nx * dx
+    ly = ny * dy
+    # Initial vortex x-position
+    x0s = sc.array([lx*0.45, lx*0.55])
+    # Initial vortex y-position
+    y0s = sc.array([ly*0.5, ly*0.5])
+
+    # Vortex core size
+    betas = sc.array([0.05, 0.05]) * min(lx, ly)
+    # Strength
+    alphas = sc.array([0.5, -0.5]) * sc.pi
+
+    # Build field
+    x = sc.linspace(dx, lx, nx)
+    y = sc.linspace(dx, ly, ny)
+    x, y = sc.meshgrid(x, y)
+    x = sc.transpose(x)
+    y = sc.transpose(y)
+
+    # Gradient operators
+    Gx = Grad_x(dx, nx, ny)
+    Gy = Grad_y(dy, nx, ny)
+
+    # Divergence operators
+    Dx = Div_x(dx, nx, ny)
+    Dy = Div_y(dy, nx, ny)
+
+    # Laplace-Operator in 2D
+    L = Laplace(Gx, Gy, Dx, Dy)
+
+    # Calculate omega
+    omega = sc.zeros([nx, ny], dtype='float64')
+    for i in range(0, len(x0s)):
+        x0 = x0s[i]
+        y0 = y0s[i]
+        beta = betas[i]
+        alpha = alphas[i]
+        R2 = (sc.multiply((x-x0), (x-x0)) + sc.multiply((y-y0), (y-y0))) / \
+            pow(beta, 2)
+        omega_part = alpha * (1-R2) * sc.exp(-R2)
+        omega += omega_part
+
+    omega = sc.reshape(omega, (nx*ny, 1), order="F")
+
+    # Determine psi
+    psi = npla.solve(L, omega)
+    psi_x = np.dot(Gx, psi)
+    psi_y = np.dot(Gy, psi)
+
+    # Determine velocity components
+    u = -psi_y
+    v = psi_x
+
+    # Compensate numerical divergence
+    s = np.dot(Dx, u) + np.dot(Dy, v)
+    dp = sc.reshape(npla.solve(L, s), (nx*ny, 1), order="F")
+
+    u -= np.dot(Gx, dp)
+    v -= np.dot(Gy, dp)
+
+    # Initialize pressure field
+    p = sc.zeros([nx, ny])
+
+    # Plot rotation of velocity field
+    rot_uv = np.dot(Dx, v) - np.dot(Dy, u)
+    rot_uv = sc.reshape(rot_uv, (nx, ny), order="F")
+    print("Initialized three dancing vortices")
+    plt.imshow(rot_uv)
+    plt.colorbar()
+    plt.show()
+
+    # Reshape velocity arrays back for output
+    u = sc.reshape(u, (nx, ny), order="F")
+    v = sc.reshape(u, (nx, ny), order="F")
+
+#    print("Initialized vortex pair")
+#    plt.imshow(omega)
+#    plt.colorbar()
+#    plt.show()
+
+    return u, v, p

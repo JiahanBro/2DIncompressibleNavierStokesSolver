@@ -26,11 +26,15 @@ ny = 64
 dx = lx/nx
 dy = ly/ny
 
-# Initialize vortex
-u, v, p = nst.dancing_vortices(nx, ny, dx, dy)
+# Initialize vortex: choose one of the following:
+# 1. vortex pair in the middle of the domain
+u, v, p = nst.vortex_pair(nx, ny, dx, dy)
+
+# 2. three vortices dancing moving arround
+#u, v, p = nst.dancing_vortices(nx, ny, dx, dy)
 
 # Simulation time
-T_simu = 100
+T_simu = 10000
 
 # Set discrete time step by choosing CFL number (condition: CFL <= 1)
 CFL = 1
