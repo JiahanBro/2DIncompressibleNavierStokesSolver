@@ -308,9 +308,4 @@ def vortex_pair(nx, ny, dx, dy):
     u = sc.reshape(u, (nx, ny), order="F")
     v = sc.reshape(u, (nx, ny), order="F")
 
-#    print("Initialized vortex pair")
-#    plt.imshow(omega)
-#    plt.colorbar()
-#    plt.show()
-
     return u, v, p

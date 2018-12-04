@@ -8,7 +8,7 @@ Created on Sat Dec  1 20:27:19 2018
 
 import scipy as sc
 from scipy.fftpack import fft2, ifft2
-from numpy import exp
+#from numpy import exp
 import matplotlib.pyplot as plt
 
 
@@ -116,7 +116,7 @@ def dancing_vortices(nx, ny, dx, dy):
         alpha = alphas[i]
         R2 = (sc.multiply((x-x0), (x-x0)) + sc.multiply((y-y0), (y-y0))) / \
             pow(beta, 2)
-        omega_part = alpha * exp(-R2)
+        omega_part = alpha * sc.exp(-R2)
         omega += omega_part
 
     # Initialize pressure field
@@ -160,7 +160,7 @@ def vortex_pair(nx, ny, dx, dy):
         alpha = alphas[i]
         R2 = (sc.multiply((x-x0), (x-x0)) + sc.multiply((y-y0), (y-y0))) / \
             pow(beta, 2)
-        omega_part = alpha * (1-R2) * exp(-R2)
+        omega_part = alpha * (1-R2) * sc.exp(-R2)
         omega += omega_part
 
     # Initialize pressure field
