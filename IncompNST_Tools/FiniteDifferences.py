@@ -222,7 +222,7 @@ def dancing_vortices(nx, ny, dx, dy):
     print("Initialized three dancing vortices")
     plt.imshow(rot_uv)
     plt.colorbar()
-    plt.show()
+    plt.pause(0.5)
 
     # Reshape velocity arrays back for output
     u = sc.reshape(u, (nx, ny), order="F")
@@ -302,7 +302,7 @@ def vortex_pair(nx, ny, dx, dy):
     print("Initialized three dancing vortices")
     plt.imshow(rot_uv)
     plt.colorbar()
-    plt.show()
+    plt.pause(0.5)
 
     # Reshape velocity arrays back for output
     u = sc.reshape(u, (nx, ny), order="F")

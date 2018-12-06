@@ -19,8 +19,8 @@ lx = 2*sc.pi
 ly = 2*sc.pi
 
 # Number of grid points
-nx = 512
-ny = 512
+nx = 256
+ny = 256
 
 # Grid increments
 dx = lx/nx
@@ -31,7 +31,7 @@ dy = ly/ny
 omega, p = nst.vortex_pair(nx, ny, dx, dy)
 
 # 2. three vortices dancing moving arround
-#  omega, p = nst.dancing_vortices(nx, ny, dx, dy)
+#omega, p = nst.dancing_vortices(nx, ny, dx, dy)
 
 # Gradient operators in Fourier domain for x- and y-direction
 Kx, Ky = nst.Spectral_Gradient(nx, ny, lx, ly)
@@ -54,7 +54,6 @@ t_step = (CFL*dx*dy)/(u_max*dy+v_max*dx)
 t_sum = 0
 i = 0
 while t_sum <= T_simu:
-
     # Runge-Kitta 4 time simulation
     omega = nst.RK4(t_step, omega, Kx, Ky, K2, K2inv, nu)
 
@@ -62,8 +61,7 @@ while t_sum <= T_simu:
     if 0 == i % 100:
 
         plt.imshow(omega)
-        plt.colorbar()
-        plt.show()
+        plt.pause(0.05)
 
     i += 1
     t_sum += t_step

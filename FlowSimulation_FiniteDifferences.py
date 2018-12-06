@@ -28,10 +28,10 @@ dy = ly/ny
 
 # Initialize vortex: choose one of the following:
 # 1. vortex pair in the middle of the domain
-u, v, p = nst.vortex_pair(nx, ny, dx, dy)
+#u, v, p = nst.vortex_pair(nx, ny, dx, dy)
 
 # 2. three vortices dancing moving arround
-#u, v, p = nst.dancing_vortices(nx, ny, dx, dy)
+u, v, p = nst.dancing_vortices(nx, ny, dx, dy)
 
 # Simulation time
 T_simu = 10000
@@ -113,8 +113,7 @@ while t_sum <= T_simu:
         rot_uv = sp.csc_matrix.todense(rot_uv)
         rot_uv = sc.reshape(rot_uv, (nx, ny), order="F")
         plt.imshow(rot_uv)
-        plt.colorbar()
-        plt.show()
+        plt.pause(0.05)
 
     i += 1
     t_sum += t_step

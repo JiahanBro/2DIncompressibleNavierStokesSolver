@@ -125,7 +125,7 @@ def dancing_vortices(nx, ny, dx, dy):
     print("Initialized three dancing vortices")
     plt.imshow(omega)
     plt.colorbar()
-    plt.show()
+    plt.pause(0.05)
 
     return omega, p
 
@@ -169,7 +169,7 @@ def vortex_pair(nx, ny, dx, dy):
     print("Initialized vortex pair")
     plt.imshow(omega)
     plt.colorbar()
-    plt.show()
+    plt.pause(0.05)
 
     return omega, p
 
@@ -187,4 +187,8 @@ def random_vortices(nx, ny):
     p = sc.zeros([nx, ny])
 
     print("Initialized random vortices")
+    plt.imshow(omega)
+    plt.colorbar()
+    plt.pause(0.05)
+    
     return omega, p
