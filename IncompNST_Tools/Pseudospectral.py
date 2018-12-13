@@ -36,6 +36,9 @@ def Spectral_Gradient(nx, ny, lx, ly):
     Kx, Ky = sc.meshgrid(kx, ky)
     Kx = 1j*Kx
     Ky = 1j*Ky
+    
+    Kx = sc.transpose(Kx)
+    Ky = sc.transpose(Ky)
     return Kx, Ky
 
 
