@@ -8,7 +8,6 @@ Created on Sat Dec  1 20:27:19 2018
 
 import scipy as sc
 from scipy.fftpack import fft2, ifft2
-#from numpy import exp
 import matplotlib.pyplot as plt
 
 
@@ -33,12 +32,10 @@ def Spectral_Gradient(nx, ny, lx, ly):
     ky[trunc_y_low:trunc_y_high] = sc.zeros(trunc_y_high - trunc_y_low)
 
     # Create Gradient operators in Fourier domain for x- and y-direction
-    Kx, Ky = sc.meshgrid(kx, ky)
+    Kx, Ky = sc.meshgrid(ky, kx)
     Kx = 1j*Kx
     Ky = 1j*Ky
-    
-    Kx = sc.transpose(Kx)
-    Ky = sc.transpose(Ky)
+
     return Kx, Ky
 
 
@@ -193,5 +190,5 @@ def random_vortices(nx, ny):
     plt.imshow(omega)
     plt.colorbar()
     plt.pause(0.05)
-    
+
     return omega, p
