@@ -134,15 +134,14 @@ def vortex_pair(nx, ny, dx, dy):
     # Domain size
     lx = nx * dx
     ly = ny * dy
+        
     # Initial vortex x-position
-    x0s = sc.array([lx*0.45, lx*0.55])
+    x0s = sc.array([0.4, 0.6])*lx
     # Initial vortex y-position
-    y0s = sc.array([ly*0.5, ly*0.5])
+    y0s = sc.array([0.5, 0.5])*ly
 
-    # Vortex core size
-    betas = sc.array([0.05, 0.05]) * min(lx, ly)
     # Strength
-    alphas = sc.array([0.5, -0.5]) * sc.pi
+    alphas = sc.array([-299.5, 299.5])
 
     # Build field
     x = sc.linspace(dx, lx, nx)
@@ -156,11 +155,9 @@ def vortex_pair(nx, ny, dx, dy):
     for i in range(0, len(x0s)):
         x0 = x0s[i]
         y0 = y0s[i]
-        beta = betas[i]
         alpha = alphas[i]
-        R2 = (sc.multiply((x-x0), (x-x0)) + sc.multiply((y-y0), (y-y0))) / \
-            pow(beta, 2)
-        omega_part = alpha * (1-R2) * sc.exp(-R2)
+        r = 10*sc.sqrt((x-x0)**2 + (y-y0)**2)
+        omega_part = alpha * (1-(r**2)) * sc.exp(-r**2)
         omega += omega_part
 
     # Initialize pressure field
