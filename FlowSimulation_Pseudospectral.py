@@ -16,11 +16,11 @@ nu = 0.001
 
 # Length of field
 lx = 2*sc.pi
-ly = 2*sc.pi
+ly = 4*sc.pi
 
 # Number of grid points
 nx = 256
-ny = 256
+ny = 2*256
 
 # Grid increments
 dx = lx/nx
