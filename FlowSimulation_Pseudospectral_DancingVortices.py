@@ -45,7 +45,6 @@ v = sc.real(ifft2(Kx*K2inv*fft2(omega)))
 u_max = sc.amax(sc.absolute(u))
 v_max = sc.amax(sc.absolute(v))
 t_step = (CFL*dx*dy)/(u_max*dy+v_max*dx)
-#t_step = 8e-4
 
 # Start Simulation
 t_sum = 0
