@@ -145,7 +145,7 @@ def vortex_pair(nx, ny, dx, dy):
 
     # Build field
     x = sc.linspace(dx, lx, nx)
-    y = sc.linspace(dx, ly, ny)
+    y = sc.linspace(dy, ly, ny)
     x, y = sc.meshgrid(x, y)
     x = sc.transpose(x)
     y = sc.transpose(y)
