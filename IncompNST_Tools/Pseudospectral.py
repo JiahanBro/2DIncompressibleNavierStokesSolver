@@ -171,6 +171,51 @@ def vortex_pair(nx, ny, dx, dy):
     return omega, p
 
 
+def vortices_64(nx, ny, dx, dy):
+    # Domain size
+    lx = nx * dx
+    ly = ny * dy
+        
+    # Initial vortex x-position
+    x0s = sc.linspace(lx/20,19*lx/20,8)
+    # Initial vortex y-position
+    y0s = sc.linspace(ly/20,19*ly/20,8)
+
+    x0s, y0s = sc.meshgrid(x0s, y0s)
+    x0s = sc.reshape(x0s, (64,1))
+    y0s = sc.reshape(y0s, (64,1))
+
+    # Strength
+    alphas = sc.sign(sc.randn(64))*2999.5
+
+    # Build field
+    x = sc.linspace(dx, lx, nx)
+    y = sc.linspace(dy, ly, ny)
+    x, y = sc.meshgrid(x, y)
+    x = sc.transpose(x)
+    y = sc.transpose(y)
+
+    # Calculate omega
+    omega = sc.zeros([nx, ny], dtype='float64')
+    for i in range(64):
+        x0 = x0s[i]
+        y0 = y0s[i]
+        alpha = alphas[i]
+        r = 20*sc.sqrt((x-x0)**2 + (y-y0)**2)
+        omega_part = alpha * (1-(r**2)) * sc.exp(-r**2)
+        omega += omega_part
+
+    # Initialize pressure field
+    p = sc.zeros([nx, ny])
+
+    print("Initialized vortex pair")
+    plt.imshow(omega)
+    plt.colorbar()
+    plt.pause(0.05)
+
+    return omega, p
+
+
 def random_vortices(nx, ny):
     omega_hat = sc.zeros([nx, ny])
     tmp = sc.randn(3) + 1j*sc.randn(3)
